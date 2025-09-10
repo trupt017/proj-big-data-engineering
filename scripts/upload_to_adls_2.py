@@ -53,7 +53,7 @@ def upload_table_to_adls(table_name):
         
         # Save DataFrame to a local Parquet file temporarily
         local_parquet_path = f"{table_name}.parquet"
-        df.to_parquet(local_parquet_path, index=False)
+        df.to_parquet(local_parquet_path, engine="pyarrow", compression="snappy", coerce_timestamps="us",allow_truncated_timestamps=True, index=False)
         
         # Create a blob client and upload the file
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=f"{table_name}.parquet")
